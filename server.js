@@ -1,9 +1,10 @@
 const express = require("express");
+const jwt = require("jsonwebtoken");
 
 const app = express();
 
-const notes = [];
-const users = [];
+const notes = []; // {username, note}
+const users = []; // {username, password}
 
 app.use(express.json()); // parses req.body else it will be undefined
 
@@ -28,9 +29,47 @@ app.post("/signup", (req, res) => {
     });
 });
 
+app.post("/signin", (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+
+    const userExists = users.find(
+        (user) => user.username === username && user.password === password,
+    );
+
+    if (!userExists) {
+        return res.status(403).json({
+            message: "Invalid Credintials",
+        });
+    }
+
+    const token = jwt.sign({ username }, "sceret key");
+
+    res.json({
+        token,
+    });
+});
+
 app.post("/notes", (req, res) => {
+    const token = req.headers.token;
+
+    if (!token) {
+        return res.status(403).json({
+            message: "you are not logged in",
+        });
+    }
+
+    const decoded = jwt.verify(token, "secret key");
+    const username = decoded.username;
+
+    if (!username) {
+        return res.status(403).json({
+            message: "malformed jwt token",
+        });
+    }
+
     const note = req.body.note;
-    notes.push(note);
+    notes.push(note, username);
 
     res.json({
         message: "Note added",
@@ -38,8 +77,26 @@ app.post("/notes", (req, res) => {
 });
 
 app.get("/notes", (req, res) => {
+    const token = req.headers.token;
+
+    if (!token) {
+        return res.status(403).json({
+            message: "you are not logged in",
+        });
+    }
+
+    const decoded = jwt.verify(token, "secret key");
+    const username = decoded.username;
+
+    if (!username) {
+        return res.status(403).json({
+            message: "malformed jwt token",
+        });
+    }
+
+    const userNote = notes.filter((note) => note.username === username);
     res.json({
-        notes,
+        notes: userNote,
     });
 });
 
