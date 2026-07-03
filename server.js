@@ -108,6 +108,18 @@ app.get("/", (req, res) => {
     );
 });
 
+app.get("/signup", (req, res) => {
+    res.sendFile(
+        "/home/paras/projects/web/week-9-notes-app/frontend/signup.html",
+    );
+});
+
+app.get("/signin", (req, res) => {
+    res.sendFile(
+        "/home/paras/projects/web/week-9-notes-app/frontend/signin.html",
+    );
+});
+
 app.listen(
     3000,
     console.log("App is running at 3000 port\nhttp://localhost:3000"),

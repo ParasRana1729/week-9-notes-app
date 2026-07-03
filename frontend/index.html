@@ -4,7 +4,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <script src="https://cdn.jsdelivr.net/npm/axios@1.18.1/dist/axios.min.js"></script>
-        <title>Document</title>
+        <title>Notes - App</title>
     </head>
     <body>
         <div
@@ -23,9 +23,17 @@
     </body>
     <script>
         async function addTodo() {
-            await axios.post("http://localhost:3000/notes", {
-                note: document.getElementById("userNote").value,
-            });
+            await axios.post(
+                "http://localhost:3000/notes",
+                {
+                    note: document.getElementById("userNote").value,
+                },
+                {
+                    headers: {
+                        token: localStorage.getItem("token"),
+                    },
+                },
+            );
             document.getElementById("userNote").value = "";
             getTodos();
         }
@@ -35,13 +43,17 @@
             // const json = await response.json();
             // console.log(json.notes);
 
-            const response = await axios.get("http://localhost:3000/notes");
+            const response = await axios.get("http://localhost:3000/notes", {
+                headers: {
+                    token: localStorage.getItem("token"),
+                },
+            });
             const notes = response.data.notes;
 
             document.getElementById("notes").innerHTML = "";
             for (let i = 0; i < notes.length; i++) {
                 const child = document.createElement("div");
-                child.innerHTML = notes[i];
+                child.innerHTML = notes[i].note;
                 child.setAttribute(
                     "style",
                     "border: 2px solid black; padding: 10px; margin: 5px 0px",
