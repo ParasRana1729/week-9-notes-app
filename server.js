@@ -43,7 +43,7 @@ app.post("/signin", (req, res) => {
         });
     }
 
-    const token = jwt.sign({ username }, "sceret key");
+    const token = jwt.sign({ username }, "secret key");
 
     res.json({
         token,
