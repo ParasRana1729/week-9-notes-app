@@ -69,7 +69,7 @@ app.post("/notes", (req, res) => {
     }
 
     const note = req.body.note;
-    notes.push(note, username);
+    notes.push({ note, username });
 
     res.json({
         message: "Note added",
