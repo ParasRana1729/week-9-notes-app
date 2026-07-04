@@ -1,6 +1,6 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
-const { authMiddleware } = require("./authMiddleware");
+const authMiddleware = require("./authMiddleware");
 
 const app = express();
 
