@@ -1,6 +1,7 @@
 <html>
     <head>
         <script src="https://cdn.jsdelivr.net/npm/axios@1.18.1/dist/axios.min.js"></script>
+        <link rel="stylesheet" href="style.css" />
         <title>Sign Up</title>
         <script>
             async function signUp() {
@@ -16,9 +17,15 @@
             }
         </script>
     </head>
-    <body>
-        <input type="text" id="user" placeholder="username" />
-        <input type="password" id="pass" placeholder="password" />
-        <button onclick="signUp()">submit</button>
+    <body class="page-center">
+        <div class="auth-card">
+            <h1>Sign Up</h1>
+            <input type="text" id="user" placeholder="username" />
+            <input type="password" id="pass" placeholder="password" />
+            <button onclick="signUp()">submit</button>
+            <p class="auth-footer">
+                Already have an account? <a href="/signin">Sign in</a>
+            </p>
+        </div>
     </body>
 </html>

@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const jwt = require("jsonwebtoken");
 const authMiddleware = require("./authMiddleware");
 
@@ -8,6 +9,7 @@ const notes = []; // {username, note}
 const users = []; // {username, password}
 
 app.use(express.json()); // parses req.body else it will be undefined
+app.use(express.static(path.join(__dirname, "frontend"))); // serves css/js/etc. from frontend/
 
 app.post("/signup", (req, res) => {
     const username = req.body.username;
